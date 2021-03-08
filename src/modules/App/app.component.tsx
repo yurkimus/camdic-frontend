@@ -25,11 +25,10 @@ const AppComponent: FC<ComponentProps> = ({ className }) => (
 
 export const App = styled(AppComponent)<ViewProps>`
   width: 100vw;
-  height: 100vh;
+  min-height: 100vh;
 
   background-color: ${({ theme }) => theme.color.base};
 
-  display: flex;
-  flex-flow: column nowrap;
-  align-items: center;
+  display: grid;
+  grid-template-rows: 72px 1fr;
 `

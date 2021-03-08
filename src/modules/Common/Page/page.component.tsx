@@ -10,12 +10,14 @@ const PageComponent: FC<ComponentProps> = ({ className, children }) => (
 )
 
 export const Page = styled(PageComponent)<ViewProps>`
+  padding: ${({ theme }) => theme.indent.page};
+
   width: 100%;
   height: 100%;
 
-  background-color: ${({ theme }) => theme.color.base};
+  background-color: ${({ theme }) => theme.color.secondary};
+  border-radius: 1rem 1rem 0 0;
 
   display: flex;
   flex-flow: column nowrap;
-  align-items: center;
 `

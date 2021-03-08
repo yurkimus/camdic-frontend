@@ -9,7 +9,8 @@ const fz = {
 }
 
 const indent = {
-  base: '1rem'
+  base: '1rem',
+  page: '2rem 1rem'
 }
 
 export const theme = {
