@@ -1,22 +1,11 @@
 import { FC, useEffect, useState } from 'react'
+import { useHistory } from 'react-router'
 import styled from 'styled-components'
+import { routes } from '../../../routes'
 import { Form } from '../../Common/Form/form.component'
 import { Textarea } from '../../Common/Form/Textarea/textarea.component'
 import { Button } from '../../Common/Button/button.component'
-import { useHistory } from 'react-router'
-import { routes } from '../../../routes'
-
-const Div = styled.div`
-  display: flex;
-
-  > * {
-    margin-right: 1rem;
-
-    :last-child {
-      margin-right: 0;
-    }
-  }
-`
+import { Wrapper } from '../../Common/Wrapper/wrapper.component'
 
 export type LocationState = {
   word: string
@@ -46,7 +35,7 @@ const WordFormComponent: FC<ComponentProps> = ({ className }) => {
     <Form className={className} onSubmit={handleSubmit}>
       <Textarea name='word-textarea' placeholder='Tap to enter text/word' required />
 
-      <Div>
+      <Wrapper>
         <Button color='base' wide>
           Copy text
         </Button>
@@ -54,7 +43,7 @@ const WordFormComponent: FC<ComponentProps> = ({ className }) => {
         <Button type='submit' color='disabled' wide>
           Load text
         </Button>
-      </Div>
+      </Wrapper>
     </Form>
   )
 }
