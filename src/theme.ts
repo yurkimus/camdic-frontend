@@ -1,7 +1,9 @@
 const color = {
   accent: '#B22234',
   base: '#F9F5F5',
-  secondary: '#F3EEEE'
+  secondary: '#F3EEEE',
+  disabled: '#CFBDBD',
+  text: '#3A3131'
 }
 
 const fz = {
@@ -9,12 +11,18 @@ const fz = {
 }
 
 const indent = {
-  base: '1rem',
-  page: '2rem 1rem'
+  base: '25px',
+  page: '15px 12.5px',
+  button: '1rem 2rem'
+}
+
+const utils = {
+  radius: '8px'
 }
 
 export const theme = {
+  indent,
+  utils,
   color,
-  fz,
-  indent
+  fz
 }

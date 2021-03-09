@@ -8,8 +8,6 @@ type ComponentProps = {} & { className?: string }
 const WordComponent: FC<ComponentProps> = ({ className }) => <div className={className}>WORD PAGE!</div>
 
 export const Word = styled(WordComponent)<ViewProps>`
-  padding: ${({ theme }) => theme.indent.base};
-
   width: 100%;
   height: 100%;
 
