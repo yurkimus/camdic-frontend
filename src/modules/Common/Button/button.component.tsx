@@ -28,6 +28,8 @@ export const Button = styled(ButtonComponent)<ViewProps>`
   justify-content: center;
   align-items: center;
 
+  transition: all 0.3s;
+
   ${({ theme, color }) => {
     /*
       TODO: fix styling text color based on background color
@@ -47,7 +49,7 @@ export const Button = styled(ButtonComponent)<ViewProps>`
       case 'accent':
         return `
           background-color: ${theme.color.accent};
-          color: ${false};
+          color: ${theme.color.base};
         `
       case 'disabled':
         return `

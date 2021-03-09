@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from 'react'
+import { FC, useEffect, useRef, useState } from 'react'
 import { useHistory } from 'react-router'
 import styled from 'styled-components'
 import { routes } from '../../../routes'
@@ -17,6 +17,8 @@ type ComponentProps = {} & { className?: string }
 
 const WordFormComponent: FC<ComponentProps> = ({ className }) => {
   const history = useHistory()
+  const [textareaContent, setTextareaContent] = useState<string>('')
+  const [isFilled, setIsFilled] = useState<boolean>(false)
   const [word, setWord] = useState<string>('')
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>, data: FormData) => {
@@ -27,20 +29,27 @@ const WordFormComponent: FC<ComponentProps> = ({ className }) => {
     })
   }
 
+  useEffect(() => (textareaContent ? setIsFilled(true) : setIsFilled(false)), [textareaContent])
+
   useEffect(() => {
     word && history.push(`${routes.word}/${word}`, { word } as LocationState)
   }, [word])
 
   return (
     <Form className={className} onSubmit={handleSubmit}>
-      <Textarea name='word-textarea' placeholder='Tap to enter text/word' required />
+      <Textarea
+        name='word-textarea'
+        placeholder='Tap to enter text/word'
+        required
+        onChange={(e) => setTextareaContent(e.target.value)}
+      />
 
       <Wrapper>
         <Button color='base' wide>
           Copy text
         </Button>
 
-        <Button type='submit' color='disabled' wide>
+        <Button type='submit' color={isFilled ? 'accent' : 'disabled'} wide disabled={!isFilled}>
           Load text
         </Button>
       </Wrapper>
