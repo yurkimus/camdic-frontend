@@ -3,11 +3,16 @@ const color = {
   base: '#F9F5F5',
   secondary: '#F3EEEE',
   disabled: '#CFBDBD',
-  text: '#3A3131'
+  text: '#3A3131',
+  wordDescriptionTitle: '#686060',
+  wordDescriptionText: '#3A3131'
 }
 
 const fz = {
-  base: '14px'
+  base: '14px',
+  guideword: '11px',
+  wordDescriptionTitle: '14px',
+  wordDescriptionText: '16px'
 }
 
 const indent = {

@@ -1,9 +1,9 @@
 import { useState } from 'react'
-import { wordApi } from './word.api'
+import { wordApi, WordResponse } from './word.api'
 
 export const useGetWord = () => {
   const [loading, setLoading] = useState<boolean>(false)
-  const [response, setResponse] = useState<object | undefined>()
+  const [response, setResponse] = useState<WordResponse | undefined>()
 
   const action = async (word: string) => {
     setLoading(true)

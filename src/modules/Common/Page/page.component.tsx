@@ -13,6 +13,7 @@ export const Page = styled(PageComponent)<ViewProps>`
   padding: ${({ theme }) => theme.indent.page};
 
   width: 100%;
+  max-width: 100vw;
   height: 100%;
 
   background-color: ${({ theme }) => theme.color.secondary};
