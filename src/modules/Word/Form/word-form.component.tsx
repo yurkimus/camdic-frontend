@@ -45,7 +45,7 @@ const WordFormComponent: FC<ComponentProps> = ({ className }) => {
       />
 
       <Wrapper>
-        <Button color='base' wide>
+        <Button type='button' color='base' wide>
           Copy text
         </Button>
 
