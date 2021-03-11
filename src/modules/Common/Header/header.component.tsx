@@ -2,6 +2,8 @@ import { FC } from 'react'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 import { routes } from '../../../routes'
+import Logo from '../../../assets/logo.svg'
+import Menu from '../../../assets/menu.svg'
 
 type ViewProps = {}
 
@@ -10,10 +12,10 @@ type ComponentProps = {} & { className?: string }
 const HeaderComponent: FC<ComponentProps> = ({ className }) => (
   <header className={className}>
     <Link to={routes.home}>
-      <img src={process.env.PUBLIC_URL + '/assets/logo.svg'} alt='logo icon' />
+      <Logo />
     </Link>
 
-    <img src={process.env.PUBLIC_URL + '/assets/menu.svg'} alt='menu icon' />
+    <Menu />
   </header>
 )
 

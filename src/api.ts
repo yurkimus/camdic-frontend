@@ -5,7 +5,7 @@ export abstract class Api {
 
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.REACT_APP_API_URL
+      baseURL: process.env.API_URL
     })
   }
 }
