@@ -11,6 +11,7 @@
 
 # development
 /.parcel-cache
+/dev
 
 # misc
 .DS_Store

@@ -3,8 +3,8 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "parcel serve ./src/index.html",
-    "build": "parcel build ./src/index.html --no-source-maps --dist-dir ./build --public-url ./"
+    "dev": "parcel serve ./src/index.html --dist-dir ./dev",
+    "build": "parcel build ./src/index.html --no-source-maps --dist-dir ./build"
   },
   "dependencies": {
     "axios": "^0.21.1",
