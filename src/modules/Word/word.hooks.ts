@@ -10,14 +10,14 @@ export const useGetWord = () => {
 
     const data = await wordApi.getWord(word)
 
-    if (data) {
-      setLoading(false)
-
+    if (data && Object.keys(data).length) {
       setResponse(data)
+
+      setLoading(false)
     } else {
       setLoading(false)
 
-      throw Error(`Some error happened at word API`)
+      setResponse(undefined)
     }
   }
 

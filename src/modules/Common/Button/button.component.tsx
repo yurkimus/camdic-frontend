@@ -1,22 +1,21 @@
-import React, { FC } from 'react'
+import React, { FC, forwardRef } from 'react'
 import styled from 'styled-components'
 import { theme } from '../../../theme'
 
 type ViewProps = {
-  wide?: boolean
   color?: keyof typeof theme.color
 }
 
-type ComponentProps = React.DetailedHTMLProps<
-  React.ButtonHTMLAttributes<HTMLButtonElement>,
-  HTMLButtonElement
-> & { className?: string }
+type ButtonProps = React.DetailedHTMLProps<React.ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement>
 
-const ButtonComponent: FC<ComponentProps> = (props) => <button {...props} />
+type ComponentProps = { className?: string }
+
+const ButtonComponent: FC<ButtonProps & ComponentProps> = (props) => <button {...props} />
 
 export const Button = styled(ButtonComponent)<ViewProps>`
   padding: ${({ theme }) => theme.indent.button};
-  width: ${({ wide }) => (wide ? '100%' : false)};
+
+  width: 100%;
 
   border-radius: ${({ theme }) => theme.utils.radius};
   border: none;

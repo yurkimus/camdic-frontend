@@ -1,16 +1,18 @@
-import React, { FC } from 'react'
+import React, { FC, forwardRef } from 'react'
 import styled from 'styled-components'
 
 type ViewProps = {}
 
-type ComponentProps = React.DetailedHTMLProps<
+type TextareaProps = React.DetailedHTMLProps<
   React.TextareaHTMLAttributes<HTMLTextAreaElement>,
   HTMLTextAreaElement
-> & {
-  className?: string
-}
+>
 
-const TextareaComponent: FC<ComponentProps> = (props) => <textarea {...props} />
+type ComponentProps = { className?: string }
+
+const TextareaComponent = forwardRef<HTMLTextAreaElement, TextareaProps & ComponentProps>((props, ref) => (
+  <textarea ref={ref} {...props} />
+))
 
 export const Textarea = styled(TextareaComponent)<ViewProps>`
   margin-bottom: 1rem;

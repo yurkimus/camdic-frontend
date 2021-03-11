@@ -1,34 +1,18 @@
-import React, { FC, useRef } from 'react'
+import { FC, forwardRef } from 'react'
 import styled from 'styled-components'
 
 type ViewProps = {}
 
-type ComponentProps = {
-  onSubmit: (e: React.FormEvent<HTMLFormElement>, data: FormData) => void
-} & {
-  className?: string
-}
+type FormProps = React.DetailedHTMLProps<React.FormHTMLAttributes<HTMLFormElement>, HTMLFormElement>
 
-const FormComponent: FC<ComponentProps> = ({ onSubmit, ...props }) => {
-  const element = useRef<HTMLFormElement>(null)
+type ComponentProps = { className?: string }
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    if (element.current) {
-      const data = new FormData(element.current)
-
-      onSubmit(e, data)
-    }
-  }
-
-  return <form ref={element} onSubmit={handleSubmit} {...props} />
-}
+const FormComponent: FC<FormProps & ComponentProps> = (props) => <form {...props} />
 
 export const Form = styled(FormComponent)<ViewProps>`
   height: 100%;
   width: 100%;
 
-  background-color: transparent;
-
   display: flex;
-  flex-flow: row nowrap;
+  flex-flow: column nowrap;
 `

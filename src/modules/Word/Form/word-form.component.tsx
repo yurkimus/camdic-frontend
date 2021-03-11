@@ -1,5 +1,5 @@
-import { FC, useEffect, useState } from 'react'
-import { useHistory } from 'react-router'
+import React, { FC, useEffect, useRef, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { routes } from '../../../routes'
 import { Form } from '../../Common/Form/form.component'
@@ -7,49 +7,69 @@ import { Textarea } from '../../Common/Form/Textarea/textarea.component'
 import { Button } from '../../Common/Button/button.component'
 import { Wrapper } from '../../Common/Wrapper/wrapper.component'
 
-export type LocationState = {
-  word: string
-}
+type LocationState = { word?: string } | undefined
 
 type ViewProps = {}
 
-type ComponentProps = {} & { className?: string }
+type ComponentProps = { className?: string }
 
 const WordFormComponent: FC<ComponentProps> = ({ className }) => {
-  const history = useHistory()
-  const [textareaContent, setTextareaContent] = useState<string>('')
+  const history = useHistory<LocationState>()
+  const location = useLocation<LocationState>()
+
+  const textareaRef = useRef<HTMLTextAreaElement>(null)
+  const [textareaValue, setTextareaValue] = useState<string>('')
   const [isFilled, setIsFilled] = useState<boolean>(false)
   const [word, setWord] = useState<string>('')
 
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>, data: FormData) => {
+  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    data.forEach((value, key) => {
-      key === 'word-textarea' && typeof value === 'string' && setWord(value)
-    })
+    textareaRef.current && setWord(textareaRef.current.value)
   }
 
-  useEffect(() => (textareaContent ? setIsFilled(true) : setIsFilled(false)), [textareaContent])
+  const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter' && !e.shiftKey && textareaRef.current) setWord(textareaRef.current.value)
+  }
+
+  const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setTextareaValue(e.target.value)
+
+    setIsFilled(Boolean(e.target.value.trim()))
+  }
 
   useEffect(() => {
-    word && history.push(`${routes.word}/${word}`, { word } as LocationState)
+    if (location?.state?.word && textareaRef.current) {
+      textareaRef.current.focus()
+
+      setTextareaValue(location.state.word)
+      setIsFilled(true)
+    }
+  }, [location, textareaRef])
+
+  useEffect(() => {
+    word && history.replace(`${routes.word}/${word}`, { word })
+
+    return () => setTextareaValue('')
   }, [word])
 
   return (
     <Form className={className} onSubmit={handleSubmit}>
       <Textarea
-        name='word-textarea'
         placeholder='Tap to enter text/word'
         required
-        onChange={(e) => setTextareaContent(e.target.value)}
+        ref={textareaRef}
+        value={textareaValue}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
       />
 
       <Wrapper>
-        <Button type='button' color='base' wide>
+        <Button type='button' color='base'>
           Copy text
         </Button>
 
-        <Button type='submit' color={isFilled ? 'accent' : 'disabled'} wide disabled={!isFilled}>
+        <Button type='submit' color={isFilled ? 'accent' : 'disabled'} disabled={!isFilled}>
           Load text
         </Button>
       </Wrapper>
@@ -60,9 +80,4 @@ const WordFormComponent: FC<ComponentProps> = ({ className }) => {
 export const WordForm = styled(WordFormComponent)<ViewProps>`
   width: 100%;
   height: 100%;
-
-  background-color: transparent;
-
-  display: flex;
-  flex-flow: column nowrap;
 `

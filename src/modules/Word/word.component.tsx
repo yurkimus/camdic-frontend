@@ -1,8 +1,7 @@
-import { useEffect } from 'react'
-import { FC } from 'react'
-import { useLocation } from 'react-router'
+import { FC, useEffect, useState } from 'react'
+import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
-import { LocationState } from './Form/word-form.component'
+import { routes } from '../../routes'
 import { useGetWord } from './word.hooks'
 import { WordTitle } from './Title/word-title.component'
 import { WordAudio } from './Audio/word-audio.component'
@@ -27,21 +26,34 @@ const Wrapper = styled.div`
   }
 `
 
+type LocationState = { word?: string } | undefined
+
 type ViewProps = {}
 
-type ComponentProps = {} & { className?: string }
+type ComponentProps = { className?: string }
 
 const WordComponent: FC<ComponentProps> = ({ className }) => {
-  const { state } = useLocation<LocationState>()
+  const history = useHistory<LocationState>()
+  const location = useLocation<LocationState>()
+
   const [loading, getWord, response] = useGetWord()
+  const [word, setWord] = useState<string>('')
 
   useEffect(() => {
-    getWord(state.word)
-  }, [state])
+    document.addEventListener('keydown', (e) => e.key.length === 1 && !e.shiftKey && setWord(e.key))
+  }, [])
+
+  useEffect(() => {
+    location?.state?.word && getWord(location.state.word)
+  }, [location])
+
+  useEffect(() => {
+    word && history.replace(`${routes.home}`, { word })
+  }, [word])
 
   return (
     <Wrapper className={className}>
-      {response && Object.keys(response).length !== 0 ? (
+      {!loading && response && (
         <>
           <div>
             <WordTitle title={response.title} />
@@ -59,9 +71,9 @@ const WordComponent: FC<ComponentProps> = ({ className }) => {
 
           <WordAdjectives adjectives={response.parts_and_descriptions?.adjective} />
         </>
-      ) : (
-        !loading && <h1>Not Found!</h1>
       )}
+
+      {!loading && !response && <h1 children='Not Found!' />}
     </Wrapper>
   )
 }
