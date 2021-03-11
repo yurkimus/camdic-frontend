@@ -3,13 +3,12 @@ import { useHistory, useLocation } from 'react-router-dom'
 import styled from 'styled-components'
 import { routes } from '../../routes'
 import { useGetWord } from './word.hooks'
+import { List } from '../Common/List/list.component'
 import { WordTitle } from './Title/word-title.component'
 import { WordAudio } from './Audio/word-audio.component'
 import { WordTranscription } from './Transcription/word-transcription.component'
 import { WordGuides } from './Guide/word-guides.component'
-import { WordNouns } from './Noun/word-nouns.component'
-import { WordVerbs } from './Verb/word-verbs.component'
-import { WordAdjectives } from './Adjective/word-adjective.component'
+import { PartsAndDescriptions, RestItem } from './word.api'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -26,6 +25,8 @@ const Wrapper = styled.div`
   }
 `
 
+const entries = {}
+
 type LocationState = { word?: string } | undefined
 
 type ViewProps = {}
@@ -39,8 +40,12 @@ const WordComponent: FC<ComponentProps> = ({ className }) => {
   const [loading, getWord, response] = useGetWord()
   const [word, setWord] = useState<string>('')
 
+  const keyDownHandler = (e: KeyboardEvent) => e.key.length === 1 && !e.shiftKey && setWord(e.key)
+
   useEffect(() => {
-    document.addEventListener('keydown', (e) => e.key.length === 1 && !e.shiftKey && setWord(e.key))
+    document.addEventListener('keydown', keyDownHandler)
+
+    return () => document.removeEventListener('keydown', keyDownHandler)
   }, [])
 
   useEffect(() => {
@@ -65,11 +70,31 @@ const WordComponent: FC<ComponentProps> = ({ className }) => {
 
           <WordGuides guidewords={response.guidewords} />
 
-          <WordNouns nouns={response.parts_and_descriptions?.noun} />
-
-          <WordVerbs verbs={response.parts_and_descriptions?.verb} />
-
-          <WordAdjectives adjectives={response.parts_and_descriptions?.adjective} />
+          {/* TODO: Fix types & extend entries type inference */}
+          <>
+            {Object.entries(response.parts_and_descriptions).map(([category, data]) => {
+              switch (category as keyof PartsAndDescriptions) {
+                case 'rest':
+                  return data?.map((item: any) => (
+                    <List
+                      key={item.title}
+                      title={item.title}
+                      data={item.descriptions}
+                      render={(item) => <p children={item as string} />}
+                    />
+                  ))
+                default:
+                  return (
+                    <List
+                      key={category}
+                      title={category}
+                      data={data}
+                      render={(item) => <p children={item} />}
+                    />
+                  )
+              }
+            })}
+          </>
         </>
       )}
 

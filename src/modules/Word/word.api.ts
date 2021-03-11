@@ -1,14 +1,32 @@
 import { Api } from '../../api'
 
+export type RestItem = {
+  title: string
+  descriptions: string[]
+}
+
+export type PartsAndDescriptions = {
+  adjective: string[]
+  preposition: string[]
+  conjunction: string[]
+  determiner: string[]
+  noun: string[]
+  pronoun: string[]
+  verb: string[]
+  'auxiliary verb': string[]
+  'phrasal verb': string[]
+  adverb: string[]
+  exclamation: string[]
+  suffix: string[]
+  prefix: string[]
+  rest: RestItem[]
+}
+
 export type WordResponse = {
   audio_link: string
   exists: boolean
   guidewords: string[]
-  parts_and_descriptions: {
-    noun?: string[]
-    verb?: string[]
-    adjective?: string[]
-  }
+  parts_and_descriptions: Partial<PartsAndDescriptions>
   title: string
   transcription: string
   url: string

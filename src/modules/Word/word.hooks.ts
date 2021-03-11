@@ -21,5 +21,5 @@ export const useGetWord = () => {
     }
   }
 
-  return [loading, action, response] as [boolean, typeof action, typeof response]
+  return [loading, action, response] as [boolean, typeof action, WordResponse | undefined]
 }
