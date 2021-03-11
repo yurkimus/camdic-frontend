@@ -1,21 +1,11 @@
 # `CAMDIC - dictionary on steroids`
 
+<br>
+
 ## How to run this app?
 
 ### You must have NodeJS installed on your computer.
 
 <br>
 
-## if (node) `git pull -> yarn install -> yarn start`
-
-<br>
-<br>
-<br>
-<br>
-<br>
-
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+## node ? `git clone -> yarn install -> yarn start` : install node
