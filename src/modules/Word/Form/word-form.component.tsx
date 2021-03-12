@@ -38,7 +38,7 @@ const WordFormComponent: FC<ComponentProps> = ({ className }) => {
     setIsFilled(Boolean(e.target.value.trim()))
   }
 
-  useEffect(() => textareaRef.current?.focus(), [textareaRef])
+  useEffect(() => textareaRef.current?.focus(), [])
 
   useEffect(() => {
     if (location?.state?.word && textareaRef.current) {

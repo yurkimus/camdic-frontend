@@ -40,7 +40,8 @@ const WordComponent: FC<ComponentProps> = ({ className }) => {
   const [loading, getWord, response] = useGetWord()
   const [word, setWord] = useState<string>('')
 
-  const keyDownHandler = (e: KeyboardEvent) => e.key.length === 1 && !e.shiftKey && setWord(e.key)
+  const keyDownHandler = (e: KeyboardEvent) =>
+    !e.shiftKey && !e.ctrlKey && e.key.length === 1 && e.key.match(/\p{L}/u) && setWord(e.key)
 
   useEffect(() => {
     document.addEventListener('keydown', keyDownHandler)
