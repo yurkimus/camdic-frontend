@@ -6,57 +6,61 @@ import { Form } from '../../Common/Form/form.component'
 import { Textarea } from '../../Common/Form/Textarea/textarea.component'
 import { Button } from '../../Common/Button/button.component'
 import { Wrapper } from '../../Common/Wrapper/wrapper.component'
+import { detectSubmit } from '../word.helpers'
 
-type LocationState = { word?: string } | undefined
+type LocationState = { word?: string; char?: string } | undefined
 
 type ViewProps = {}
 
 type ComponentProps = { className?: string }
 
 const WordFormComponent: FC<ComponentProps> = ({ className }) => {
-  const history = useHistory<LocationState>()
+  const history = useHistory()
   const location = useLocation<LocationState>()
 
   const textareaRef = useRef<HTMLTextAreaElement>(null)
   const [textareaValue, setTextareaValue] = useState<string>('')
   const [isFilled, setIsFilled] = useState<boolean>(false)
-  const [word, setWord] = useState<string>('')
+  const [word, setWord] = useState<string | undefined>()
 
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
     const value = textareaRef.current?.value
 
-    value?.trim() && setWord(value)
+    value?.trim() ? setWord(value) : setWord(undefined)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     const value = textareaRef.current?.value
 
-    if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && value?.trim()) setWord(value)
+    detectSubmit(e) && value?.trim() ? setWord(value) : setWord(undefined)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-    setTextareaValue(e.target.value)
+    const value = e.target.value
 
-    setIsFilled(Boolean(e.target.value.trim()))
+    setTextareaValue(value)
+
+    setIsFilled(!!value.trim())
   }
 
   useEffect(() => textareaRef.current?.focus(), [])
 
   useEffect(() => {
-    if (location?.state?.word && textareaRef.current) {
+    const char = location.state?.char
+
+    if (char && textareaRef.current) {
+      setTextareaValue(char)
+
       textareaRef.current.focus()
 
-      setTextareaValue(location.state.word)
       setIsFilled(true)
     }
   }, [location, textareaRef])
 
   useEffect(() => {
     word && history.replace(`${routes.word}/${word}`, { word })
-
-    return () => setTextareaValue('')
   }, [word])
 
   return (

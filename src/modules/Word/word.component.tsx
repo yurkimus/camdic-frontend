@@ -1,5 +1,5 @@
 import { FC, useEffect, useState } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import { useHistory } from 'react-router-dom'
 import styled from 'styled-components'
 import { routes } from '../../routes'
 import { useGetWord } from './word.hooks'
@@ -8,8 +8,8 @@ import { WordTitle } from './Title/word-title.component'
 import { WordAudio } from './Audio/word-audio.component'
 import { WordTranscription } from './Transcription/word-transcription.component'
 import { WordGuides } from './Guide/word-guides.component'
-import { PartsAndDescriptions, RestItem } from './word.api'
-import { useLocalStorage } from '../Common/Hooks/useLocalStorage'
+import { PartsAndDescriptions } from './word.api'
+import { detectChar, getChar } from './word.helpers'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -26,95 +26,65 @@ const Wrapper = styled.div`
   }
 `
 
-const entries = {}
-
-type LocationState = { word?: string } | undefined
-
 type ViewProps = {}
 
-type ComponentProps = { className?: string }
+type ComponentProps = { word?: string; className?: string }
 
-const WordComponent: FC<ComponentProps> = ({ className }) => {
-  const history = useHistory<LocationState>()
-  const location = useLocation<LocationState>()
-
+const WordComponent: FC<ComponentProps> = ({ className, word }) => {
+  const history = useHistory()
   const [loading, getWord, response] = useGetWord()
-  const [setLsItem, getLsItem] = useLocalStorage()
-  const lsKey = 'cdict-word-to-get'
-  const [word, setWord] = useState<string>('')
+  const [char, setChar] = useState<string | undefined>(undefined)
 
-  const keyDownHandler = (e: KeyboardEvent) =>
-    !e.shiftKey && !e.ctrlKey && e.key.length === 1 && e.key.match(/\p{L}/u) && setWord(e.key)
+  const handleKeyDown = (e: KeyboardEvent) => detectChar(e) && setChar(getChar(e))
 
   useEffect(() => {
-    document.addEventListener('keydown', keyDownHandler)
+    document.addEventListener('keydown', handleKeyDown)
 
-    return () => document.removeEventListener('keydown', keyDownHandler)
+    return () => document.removeEventListener('keydown', handleKeyDown)
   }, [])
 
   useEffect(() => {
-    const word = location?.state?.word
-
-    if (word) {
-      setLsItem(lsKey, word)
-
-      getWord(word)
-    } else {
-      const found = getLsItem(lsKey)
-
-      found && getWord(found)
-    }
-  }, [location])
+    char && history.replace(`${routes.home}`, { char })
+  }, [char])
 
   useEffect(() => {
-    word && history.replace(`${routes.home}`, { word })
+    if (word) getWord(word)
   }, [word])
 
-  return (
+  return !loading && typeof response !== 'undefined' ? (
     <Wrapper className={className}>
-      {!loading && response && (
-        <>
-          <div>
-            <WordTitle title={response.title} />
+      <div>
+        <WordTitle title={response.title} />
 
-            <WordTranscription transcription={response.transcription} />
-          </div>
-
-          <WordAudio audio_link={response.audio_link} />
-
-          <WordGuides guidewords={response.guidewords} />
-
-          {/* TODO: Fix types & extend entries type inference */}
-          <>
-            {Object.entries(response.parts_and_descriptions).map(([category, data]) => {
-              switch (category as keyof PartsAndDescriptions) {
-                case 'rest':
-                  return data?.map((item: any) => (
-                    <List
-                      key={item.title}
-                      title={item.title}
-                      data={item.descriptions}
-                      render={(item) => <p children={item as string} />}
-                    />
-                  ))
-                default:
-                  return (
-                    <List
-                      key={category}
-                      title={category}
-                      data={data}
-                      render={(item) => <p children={item} />}
-                    />
-                  )
-              }
-            })}
-          </>
-        </>
-      )}
-
-      {!loading && !response && <h1 children='Not Found!' />}
+        <WordTranscription transcription={response.transcription} />
+      </div>
+      <WordAudio audio_link={response.audio_link} />
+      <WordGuides guidewords={response.guidewords} />
+      {/* TODO: Fix types & extend entries type inference */}
+      <>
+        {Object.entries(response.parts_and_descriptions).map(([category, data]) => {
+          switch (category as keyof PartsAndDescriptions) {
+            case 'rest':
+              return data?.map((item: any) => (
+                <List
+                  key={item.title}
+                  title={item.title}
+                  data={item.descriptions}
+                  render={(item) => <p children={item as string} />}
+                />
+              ))
+            default:
+              return (
+                <List key={category} title={category} data={data} render={(item) => <p children={item} />} />
+              )
+          }
+        })}
+      </>
+      )
     </Wrapper>
-  )
+  ) : !loading ? (
+    <h1 children='Not Found' />
+  ) : null
 }
 
 export const Word = styled(WordComponent)<ViewProps>`
