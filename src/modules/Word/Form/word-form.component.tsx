@@ -25,11 +25,15 @@ const WordFormComponent: FC<ComponentProps> = ({ className }) => {
   const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
-    textareaRef.current && setWord(textareaRef.current.value)
+    const value = textareaRef.current?.value
+
+    value?.trim() && setWord(value)
   }
 
   const handleKeyDown = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
-    if (e.key === 'Enter' && !e.shiftKey && textareaRef.current) setWord(textareaRef.current.value)
+    const value = textareaRef.current?.value
+
+    if (e.key === 'Enter' && !e.shiftKey && !e.ctrlKey && value?.trim()) setWord(value)
   }
 
   const handleChange = (e: React.ChangeEvent<HTMLTextAreaElement>) => {

@@ -9,6 +9,7 @@ import { WordAudio } from './Audio/word-audio.component'
 import { WordTranscription } from './Transcription/word-transcription.component'
 import { WordGuides } from './Guide/word-guides.component'
 import { PartsAndDescriptions, RestItem } from './word.api'
+import { useLocalStorage } from '../Common/Hooks/useLocalStorage'
 
 const Wrapper = styled.div`
   height: 100%;
@@ -38,6 +39,8 @@ const WordComponent: FC<ComponentProps> = ({ className }) => {
   const location = useLocation<LocationState>()
 
   const [loading, getWord, response] = useGetWord()
+  const [setLsItem, getLsItem] = useLocalStorage()
+  const lsKey = 'cdict-word-to-get'
   const [word, setWord] = useState<string>('')
 
   const keyDownHandler = (e: KeyboardEvent) =>
@@ -50,7 +53,17 @@ const WordComponent: FC<ComponentProps> = ({ className }) => {
   }, [])
 
   useEffect(() => {
-    location?.state?.word && getWord(location.state.word)
+    const word = location?.state?.word
+
+    if (word) {
+      setLsItem(lsKey, word)
+
+      getWord(word)
+    } else {
+      const found = getLsItem(lsKey)
+
+      found && getWord(found)
+    }
   }, [location])
 
   useEffect(() => {
