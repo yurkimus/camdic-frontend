@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import styled from 'styled-components'
 
-import { to } from '../misc/styled'
+import { to } from 'misc/styled'
 
 const Wrapper = {
   Header: styled.header`

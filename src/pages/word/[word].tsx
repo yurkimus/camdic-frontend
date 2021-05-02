@@ -1,6 +1,6 @@
 import { useRouter } from 'next/router'
 
-import { Word } from '../../modules/Word/word.component'
+import { Word } from 'Word/word.component'
 
 const WordPage = () => {
   const router = useRouter()

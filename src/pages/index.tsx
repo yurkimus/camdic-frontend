@@ -1,4 +1,4 @@
-import { Form } from '../modules/Word/Form/word-form.component'
+import { Form } from 'Word/Form/word-form.component'
 
 const HomePage = () => <Form />
 

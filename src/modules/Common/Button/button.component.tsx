@@ -1,7 +1,7 @@
 import React, { DetailedHTMLProps, ButtonHTMLAttributes, FC } from 'react'
 import styled from 'styled-components'
 
-import { to } from '../../../misc/styled'
+import { to } from 'misc/styled'
 
 type ComponentProps = DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> & {
   className?: string

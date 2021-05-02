@@ -1,20 +1,18 @@
 import { useRouter } from 'next/router'
 import { FC, useEffect, useState } from 'react'
 
-import { PartsAndDescriptions } from './word.api'
+import { routes } from 'misc/routes'
 
-import { routes } from '../../misc/routes'
+import { List } from 'Common/List/list.component'
 
-import { useGetWord } from './word.hooks'
+import { PartsAndDescriptions } from 'Word/word.api'
+import { useGetWord } from 'Word/word.hooks'
+import { helpers as h } from 'Word/word.helpers'
 
-import { helpers as h } from './word.helpers'
-
-import { List } from '../Common/List/list.component'
-
-import { Title } from './Title/title.component'
-import { Transcription } from './Transcription/transcription.component'
-import { Audio } from './Audio/audio.component'
-import { Guides } from './Guides/guides.component'
+import { Title } from 'Word/Title/title.component'
+import { Transcription } from 'Word/Transcription/transcription.component'
+import { Audio } from 'Word/Audio/audio.component'
+import { Guides } from 'Word/Guides/guides.component'
 
 import { Wrapper } from './styled'
 

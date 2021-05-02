@@ -1,7 +1,7 @@
 import styled from 'styled-components'
 import { animated } from 'react-spring'
 
-import { to } from '../misc/styled'
+import { to } from 'misc/styled'
 
 export const Wrapper = {
   Page: styled.div`

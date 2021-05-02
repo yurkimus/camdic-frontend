@@ -1,11 +1,11 @@
 import { useRouter } from 'next/router'
 import { FormEvent, KeyboardEvent, ChangeEvent, FC, useEffect, useRef, useState } from 'react'
 
-import { routes } from '../../../misc/routes'
+import { routes } from 'misc/routes'
 
-import { helpers } from '../word.helpers'
+import { helpers } from 'Word/word.helpers'
 
-import { Button } from '../../Common/Button/button.component'
+import { Button } from 'Common/Button/button.component'
 
 import { Wrapper } from './styled'
 

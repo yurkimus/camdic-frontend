@@ -1,6 +1,6 @@
 import styled from 'styled-components'
 
-import { to } from '../../../misc/styled'
+import { to } from 'misc/styled'
 
 const Base = styled.div``
 

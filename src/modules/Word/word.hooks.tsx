@@ -1,6 +1,6 @@
 import { useState } from 'react'
 
-import { wordApi, WordResponse } from './word.api'
+import { wordApi, WordResponse } from 'Word/word.api'
 
 export const useGetWord = () => {
   const [loading, setLoading] = useState<boolean>(false)

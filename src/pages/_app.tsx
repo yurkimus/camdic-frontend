@@ -2,10 +2,10 @@ import type { AppProps } from 'next/app'
 import { config, useTransition } from 'react-spring'
 import { ThemeProvider } from 'styled-components'
 
-import { GlobalStyle, theme } from '../misc/styled'
+import { GlobalStyle, theme } from 'misc/styled'
 
-import { Header } from '../components/header.component'
-import { Wrapper } from '../components/page.component'
+import { Header } from 'components/header.component'
+import { Wrapper } from 'components/page.component'
 
 export default function _App({ Component, pageProps, router }: AppProps) {
   const transitions = useTransition(router, {
