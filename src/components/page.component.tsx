@@ -1,21 +1,21 @@
 import styled from 'styled-components'
 import { animated } from 'react-spring'
 
-import { constraints } from '../misc/styled'
+import { to } from '../misc/styled'
 
 export const Wrapper = {
   Page: styled.div`
     width: 100%;
-    height: calc(100% - ${constraints.header}px);
+    height: ${({ theme }) => `calc(100% - ${to('px', theme.constraints.header)})`};
 
-    color: #3a3131;
+    color: ${({ theme }) => theme.color.text};
 
-    background-color: #f3eeee;
+    background-color: ${({ theme }) => theme.color.secondary};
 
     position: relative;
-
     overflow-x: hidden;
   `,
+
   Section: styled(animated.section)`
     padding: 2rem;
 

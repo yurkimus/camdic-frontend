@@ -1,3 +1,5 @@
-const Home = () => <h1>Home Page</h1>
+import { Form } from '../modules/Word/Form/word-form.component'
+
+const Home = () => <Form />
 
 export default Home

@@ -1,11 +1,11 @@
 import Link from 'next/link'
 import styled from 'styled-components'
 
-import { constraints } from '../misc/styled'
+import { to } from '../misc/styled'
 
 const Wrapper = {
   Header: styled.header`
-    height: ${constraints.header}px;
+    height: ${({ theme }) => to('px', theme.constraints.header)};
   `
 }
 

@@ -6,12 +6,26 @@ export default class _Document extends Document {
   static async getInitialProps(ctx: DocumentContext) {
     const sheet = new ServerStyleSheet()
 
-    const page = ctx.renderPage({
-      enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />)
-    })
+    const originalRenderPage = ctx.renderPage
 
-    const styles = sheet.getStyleElement()
+    try {
+      ctx.renderPage = () =>
+        originalRenderPage({
+          enhanceApp: (App) => (props) => sheet.collectStyles(<App {...props} />)
+        })
 
-    return { ...page, styles }
+      const initialProps = await Document.getInitialProps(ctx)
+      return {
+        ...initialProps,
+        styles: (
+          <>
+            {initialProps.styles}
+            {sheet.getStyleElement()}
+          </>
+        )
+      }
+    } finally {
+      sheet.seal()
+    }
   }
 }
