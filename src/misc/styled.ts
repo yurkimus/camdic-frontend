@@ -29,33 +29,18 @@ export const GlobalStyle = createGlobalStyle`
 export const to = (unit: 'px' | 'rem' | 'em' | 'p', value: number) => `${value}${unit}`
 
 export const theme = {
-  word: {
-    description: {
-      title: {
-        color: '#686060',
-        font: {
-          size: 14
-        }
-      },
-      text: {
-        color: '#3A3131',
-        font: {
-          size: 16
-        }
-      }
-    }
-  },
-
   color: {
     accent: '#B22234',
     base: '#F9F5F5',
     secondary: '#F3EEEE',
     disabled: '#CFBDBD',
-    text: '#3A3131'
+    text: '#3A3131',
+    mark: '#686060'
   },
 
   font: {
     size: {
+      text: 16,
       base: 14,
       guideword: 11
     }

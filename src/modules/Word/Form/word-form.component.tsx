@@ -7,7 +7,7 @@ import { helpers } from '../word.helpers'
 
 import { Button } from '../../Common/Button/button.component'
 
-import { Wrapper } from './word-form.styled'
+import { Wrapper } from './styled'
 
 export const Form: FC = () => {
   const router = useRouter()
@@ -38,7 +38,9 @@ export const Form: FC = () => {
     setFilled(!!e.target.value.trim())
   }
 
-  useEffect(() => textareaRef.current?.focus(), [])
+  useEffect(() => {
+    textareaRef.current?.focus()
+  }, [])
 
   useEffect(() => {
     if (typeof char == 'string' && char && textareaRef.current) {
@@ -51,11 +53,7 @@ export const Form: FC = () => {
   }, [router, textareaRef])
 
   useEffect(() => {
-    word &&
-      router.replace({
-        pathname: `${routes.word}/${word}`,
-        query: { word }
-      })
+    word && router.push(`${routes.word}/${word}`)
   }, [word])
 
   return (
@@ -70,7 +68,7 @@ export const Form: FC = () => {
       />
 
       <Wrapper.Actions>
-        <Button type='button' variant='base' children='copy' />
+        <Button type='button' variant='base' children='copy' disabled />
 
         <Button type='submit' variant='accent' disabled={!filled} children='define' />
       </Wrapper.Actions>

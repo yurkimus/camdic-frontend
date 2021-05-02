@@ -1,5 +1,5 @@
 import { Form } from '../modules/Word/Form/word-form.component'
 
-const Home = () => <Form />
+const HomePage = () => <Form />
 
-export default Home
+export default HomePage

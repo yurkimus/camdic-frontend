@@ -10,6 +10,7 @@ import { Wrapper } from '../components/page.component'
 export default function _App({ Component, pageProps, router }: AppProps) {
   const transitions = useTransition(router, {
     keys: (router) => router.pathname,
+    initial: { opacity: 1, transform: 'translate3d(0%, 0, 0)' },
     from: { opacity: 1, transform: 'translate3d(100%, 0, 0)' },
     enter: { opacity: 1, transform: 'translate3d(0%, 0, 0)' },
     leave: { opacity: 0.8, transform: 'translate3d(-100%, 0, 0)' },

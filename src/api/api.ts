@@ -5,7 +5,7 @@ export abstract class Api {
 
   constructor() {
     this.client = axios.create({
-      baseURL: process.env.API_URL
+      baseURL: 'http://cdict.ru/api'
     })
   }
 }

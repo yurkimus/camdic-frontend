@@ -30,6 +30,7 @@ export const Button = styled(Component)<ViewProps>`
   border-radius: ${({ theme }) => to('px', theme.utils.radius)};
 
   transition: all 0.3s;
+  cursor: pointer;
 
   ${({ theme, variant }) => {
     /*
@@ -65,6 +66,8 @@ export const Button = styled(Component)<ViewProps>`
       return `
         background-color: ${theme.color.disabled};
         color: ${theme.color.base};
+
+        cursor: not-allowed;
       `
   }}
 `
